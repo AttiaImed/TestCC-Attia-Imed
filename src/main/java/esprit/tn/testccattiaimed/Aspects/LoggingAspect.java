@@ -6,13 +6,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
-@Component
-@Aspect
-@Slf4j
-public class LoggingAspect {
-    @Before("execution(* esprit.tn.testccattiaimed.Services.*(..))")
-    public void logMethodEntry(JoinPoint joinPoint) {
-        String name = joinPoint.getSignature().getName();
-        log.info("In method " + name + " : ");
-    }
-}
+//@Component
+//@Aspect
+//@Slf4j
+//public class LoggingAspect {
+//    @Before("execution(* esprit.tn.testccattiaimed.Services.*(..))")
+//    public void logMethodEntry(JoinPoint joinPoint) {
+//        String name = joinPoint.getSignature().getName();
+//        log.info("In method " + name + " : ");
+//    }
+//}
