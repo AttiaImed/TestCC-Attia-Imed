@@ -20,12 +20,8 @@ public class MagasinController {
     MagasinService magasinService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-
     public ResponseEntity<Magasin> ajouterObject(@RequestBody Magasin o){
-
         Magasin addedObject = magasinService.ajouterMagasinEtPersonnel(o);
-
         return new ResponseEntity<Magasin>(addedObject , HttpStatus.CREATED);
-
     }
 }

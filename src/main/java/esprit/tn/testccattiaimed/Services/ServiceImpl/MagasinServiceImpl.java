@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Primary
-@Service("XServiceImpl")
+@Service("MagasinServiceImpl")
 @AllArgsConstructor
 @Slf4j
 public class MagasinServiceImpl implements MagasinService {
@@ -23,20 +23,18 @@ public class MagasinServiceImpl implements MagasinService {
     public Magasin ajouterMagasinEtPersonnel(Magasin magasin) {
         return magasinRepository.save(magasin);
     }
-    @Scheduled(cron = "0 0 8 * * ?")
+    @Scheduled(cron = "0 0 8 * * *")
     public void totalSolde(){
         log.info("Console message at 8 AM");
+        double somme = 0.0;
         List<Magasin> listM = magasinRepository.findAll();
         for (Magasin magasin : listM) {
             Set<Client> clients = magasin.getClients();
-            double somme = 0.0;
-
             for (Client client : clients) {
                 somme += client.getCarteFid().getSolde();
             }
-
             log.info("Magasin " + magasin.getNomMagasin() + " - somme des carte de fidelite: " + somme);
-
+            somme=0.0;
         }
     }
 }

@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Primary
 @Service("CarteFidServiceImpl")
 @AllArgsConstructor
@@ -21,6 +23,8 @@ public class CarteFidServiceImpl implements CarteFidService {
     public void ajouterCarteEtAffecterClient(CarteFid cartefid, long cin) {
         CarteFid cf = carteFidRepository.save(cartefid);
         Client c = clientRepository.findByCin(cin);
+        cf.setSolde(0);
+        cf.setDateCreation(LocalDate.now());
         c.setCarteFid(cf);
         clientRepository.save(c);
 
@@ -29,22 +33,13 @@ public class CarteFidServiceImpl implements CarteFidService {
     @Override
     public long effecteurOperation(String typeOperation, long numCarte, int montant) {
         CarteFid carteFid = carteFidRepository.findByNumeroCarte(numCarte);
-
-        if (carteFid == null) {
-            return -1;
-        }
-
         long ancienSolde = carteFid.getSolde();
         long nMontant;
         if ("+".equals(typeOperation)) {
-
-
             nMontant = ancienSolde + montant;
         } else if ("-".equals(typeOperation)) {
-
             nMontant = ancienSolde - montant;
         } else {
-
             return -1;
         }
 
