@@ -29,19 +29,30 @@ public class CarteFidServiceImpl implements CarteFidService {
     @Override
     public long effecteurOperation(String typeOperation, long numCarte, int montant) {
         CarteFid carteFid = carteFidRepository.findByNumeroCarte(numCarte);
-        long ancienSolde = carteFid.getSolde();
-        long nouveauMontant=0;
-        if(typeOperation.equals("+")){
-            nouveauMontant = ancienSolde+montant;
-            carteFid.setSolde(nouveauMontant);
-            carteFidRepository.save(carteFid);
-            return nouveauMontant;
-        }else if (typeOperation.equals("-")){
-            nouveauMontant = ancienSolde-montant;
-            carteFid.setSolde(nouveauMontant);
-            carteFidRepository.save(carteFid);
-            return nouveauMontant;
+
+        if (carteFid == null) {
+            return -1;
         }
-        return nouveauMontant;
+
+        long ancienSolde = carteFid.getSolde();
+        long nMontant;
+        if ("+".equals(typeOperation)) {
+
+
+            nMontant = ancienSolde + montant;
+        } else if ("-".equals(typeOperation)) {
+
+            nMontant = ancienSolde - montant;
+        } else {
+
+            return -1;
+        }
+
+        carteFid.setSolde(nMontant);
+
+        carteFidRepository.save(carteFid);
+
+        return nMontant;
     }
+
 }

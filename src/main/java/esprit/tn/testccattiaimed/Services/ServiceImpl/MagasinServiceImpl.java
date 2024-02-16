@@ -23,21 +23,20 @@ public class MagasinServiceImpl implements MagasinService {
     public Magasin ajouterMagasinEtPersonnel(Magasin magasin) {
         return magasinRepository.save(magasin);
     }
-    // use spring scheduler to display a console message everyday at 8am
     @Scheduled(cron = "0 0 8 * * ?")
     public void totalSolde(){
         log.info("Console message at 8 AM");
         List<Magasin> listM = magasinRepository.findAll();
-        //display all carte sum in the list of
         for (Magasin magasin : listM) {
             Set<Client> clients = magasin.getClients();
-            double sumOfLoyaltyCards = 0.0;
+            double somme = 0.0;
 
             for (Client client : clients) {
-                sumOfLoyaltyCards += client.getCarteFid().getSolde();
+                somme += client.getCarteFid().getSolde();
             }
 
-            log.info("Magasin {} - Sum of Carte de Fidelite: {}", magasin.getNomMagasin(), sumOfLoyaltyCards);
+            log.info("Magasin " + magasin.getNomMagasin() + " - somme des carte de fidelite: " + somme);
+
         }
     }
 }
